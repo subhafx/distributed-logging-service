@@ -39,7 +39,7 @@ public class LogIngestBatchConfiguration {
      * @return Resource[] list of possible files
      */
     public Resource[] generateResourceNames(int fileNameSuffix){
-        int incrementor = fileNameSuffix < 30 ? 0 : 30 ; // Decides the range 0 - 29 or 30 - 60
+        int incrementor = fileNameSuffix > 30 ? 0 : 30 ; // Decides the range 0 - 29 or 30 - 60
         Resource[] inputResources = new Resource[30];
         IntStream
                 .range(0,30)

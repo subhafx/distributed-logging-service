@@ -50,9 +50,8 @@ public class LoggerserviceApplication {
     @Scheduled(cron = "*/30 * * * * ?")
     public void importLogsToDB() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
         Job importLogJob = applicationContext.getBean("importLogJob", Job.class);
-        String fileNameSuffix = String.valueOf(Math.abs(Calendar.getInstance().get(Calendar.SECOND) - 30));
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("fileNameSuffix", fileNameSuffix)
+                .addString("fileNameSuffix", String.valueOf(Calendar.getInstance().get(Calendar.SECOND)))
                 .addString("JobId", UUID.randomUUID().toString())
                 .addLong("time", System.currentTimeMillis()).toJobParameters();
 
