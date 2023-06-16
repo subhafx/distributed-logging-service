@@ -35,6 +35,90 @@ services:
     stdin_open: true
     tty: true
 
+  jmeter-node01:
+    profiles: ["test"]
+    depends_on:
+      - app
+    container_name: jmeter-node01
+    image: justb4/jmeter
+    networks:
+      springboot-mysql-net:
+    ports:
+      - 1099
+      - 50000
+    volumes:
+      - /input_data
+      - /logs
+
+  jmeter-node02:
+    profiles: ["test"]
+    depends_on:
+      - app
+    container_name: jmeter-node02
+    image: justb4/jmeter
+    networks:
+      springboot-mysql-net:
+    ports:
+      - 1099
+      - 50000
+    volumes:
+      - /input_data
+      - /logs
+
+  jmeter-node03:
+    profiles: ["test"]
+    depends_on:
+      - app
+    container_name: jmeter-node03
+    image: justb4/jmeter
+    networks:
+      springboot-mysql-net:
+    ports:
+      - 1099
+      - 50000
+    volumes:
+      - /input_data
+      - /logs
+
+  jmeter-master:
+    profiles: ["test"]
+    container_name: jmeter-master
+    image: justb4/jmeter
+    networks:
+      springboot-mysql-net:
+    ports:
+      - 60000
+    volumes:
+      - ./jmeter/test_plan/scripts:/scripts
+      - ./jmeter/logs:/logs
+    entrypoint:
+      - /var/lib/apache-jmeter/bin/jmeter
+      - -n
+      - -t
+      - /scripts/logger_service_write_log_test.jmx
+      - -l
+      - /logs/results.csv
+      - -j
+      - /logs/jmeter.log
+      - -LDEBUG
+      - -R jmeter-node01,jmeter-node02,jmeter-node03
+
+
 
 networks:
   springboot-mysql-net:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
